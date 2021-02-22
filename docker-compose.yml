@@ -1,0 +1,21 @@
+version: '3'
+services:
+  prometheus:
+    container_name: prometheus-svc
+    image: prom/prometheus:latest
+    ports:
+      - "9091:9090"
+    command: --config.file="/etc/prometheus/prometheus.yaml"
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
+
+  grafana:
+    image: grafana/grafana:7.4.2
+    ports:
+      - "9092:3000"
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+    environment:
+      - GF_AUTH_BASIC_ENABLED=false
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
